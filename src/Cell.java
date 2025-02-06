@@ -1,11 +1,5 @@
 public class Cell {
 
-    public enum CellType {
-        EMPTY,
-        FOOD,
-        SNAKE
-    }
-
     private final int row, col;
     private CellType cellType;
 
