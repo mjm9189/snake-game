@@ -1,6 +1,6 @@
 public class Cell {
 
-    enum CellType {
+    public enum CellType {
         EMPTY,
         FOOD,
         SNAKE
@@ -18,7 +18,7 @@ public class Cell {
         return this.cellType;
     }
 
-    public setCellType(CellType cellType) {
+    public void setCellType(CellType cellType) {
         this.cellType = cellType;
     }
 
