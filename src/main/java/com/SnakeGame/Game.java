@@ -1,14 +1,9 @@
 package com.SnakeGame;
 
-import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.LinkedList;
 
-@RestController
-@RequestMapping("/game")
-@CrossOrigin(origins = "http://localhost:5500") // Allow frontend requests (change port if needed)
 public class Game {
 
     private Snake snake;
@@ -17,7 +12,7 @@ public class Game {
     private Cell foodCell;
     private String direction = "right";
     private LinkedList<String> dirBuffer = new LinkedList<>();
-    private int currScore;
+    private int currScore = 0;
     private int highScore = 0;
     private boolean gameStart = false;
 
@@ -84,7 +79,6 @@ public class Game {
         }
     }
 
-    @PostMapping("/move")
     public void handleKeyPress(String keyPress) {
         if (this.dirBuffer.size() > 2) {
             return;
@@ -110,25 +104,21 @@ public class Game {
                     this.dirBuffer.add("right");
                 }
                 break;
+            default:
+                break;
         }
     }
 
-    @GetMapping("/state")
     public Map<String, Object> getGameState() {
         Map<String, Object> state = new HashMap<>();
         state.put("inProgress", this.gameStart);
         state.put("score", this.currScore);
         state.put("highScore", this.highScore);
+        if (!this.gameStart) {
+            return state;
+        }
         state.put("snake", this.snake.getSnakeCells());
         state.put("food", this.foodCell.getCellPosition());
         return state;
-    }
-
-    public int getScore() {
-        return this.currScore;
-    }
-
-    public int getHighScore() {
-        return this.highScore;
     }
 }
