@@ -39,8 +39,8 @@ public class Cell {
 
     public HashMap<String, Integer> getCellPosition() {
         HashMap<String, Integer> position = new HashMap<>();
-        position.put("row", this.row);
-        position.put("col", this.col);
+        position.put("x", this.row);
+        position.put("y", this.col);
         return position;
     }
 }
