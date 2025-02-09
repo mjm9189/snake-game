@@ -10,8 +10,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*") // Allow frontend requests
 @RequestMapping("/game")
-@CrossOrigin(origins = "http://localhost:5500") // Allow frontend requests
 
 public class GameController {
 
@@ -35,7 +35,7 @@ public class GameController {
 
     @GetMapping("/state")
     public Map<String, Object> getGameState() {
-        return game.getGameState();
+        return this.latestGameState;
     }
 
     @PostMapping("/move")
@@ -45,6 +45,7 @@ public class GameController {
             game.handleKeyPress(direction);
         } else {
             game.newGame();
+            latestGameState = this.game.getGameState();
         }
     }
 

@@ -20,17 +20,16 @@ public class Game {
         gameStart = true;
         this.board = new Board(23, 22);
         this.emptyCells = this.board.emptyCells;
-        this.snake = new Snake(board.getCell(11, 6));
-        this.foodCell = this.board.getCell(11, 15);
+        this.snake = new Snake(board.getCell(12, 6));
+        this.foodCell = this.board.getCell(12, 12);
         this.emptyCells.removeCell(this.snake.getHead());
         this.emptyCells.removeCell(this.foodCell);
         this.currScore = 0;
+        this.dirBuffer = new LinkedList<>();
+        this.direction = "right";
     }
 
     public void endGame() {
-        if (currScore > highScore) {
-            highScore = currScore;
-        }
         gameStart = false;
     }
 
@@ -69,6 +68,9 @@ public class Game {
             return;
         } else if (nextCellType == CellType.FOOD) {
             this.currScore += 1;
+            if (this.currScore > this.highScore) {
+                this.highScore = this.currScore;
+            }
             this.generateFood();
         }
 
@@ -85,22 +87,22 @@ public class Game {
         }
         switch (keyPress) {
             case "ArrowUp", "w":
-                if ((this.dirBuffer.size() == 0) && (this.direction != "down") || this.dirBuffer.getLast() != "down") {
+                if (((this.dirBuffer.size() == 0) && (this.direction != "down")) || ((this.dirBuffer.getLast() != "down") && (this.dirBuffer.size() > 0))) {
                     this.dirBuffer.add("up");
                 }
                 break;
             case "ArrowDown", "s":
-                if ((this.dirBuffer.size() == 0) && (this.direction != "up") || this.dirBuffer.getLast() != "up") {
+                if (((this.dirBuffer.size() == 0) && (this.direction != "up")) || ((this.dirBuffer.getLast() != "up") && (this.dirBuffer.size() > 0))) {
                     this.dirBuffer.add("down");
                 }
                 break;
             case "ArrowLeft", "a":
-                if ((this.dirBuffer.size() == 0) && (this.direction != "right") || this.dirBuffer.getLast() != "right") {
+                if (((this.dirBuffer.size() == 0) && (this.direction != "right")) || (this.dirBuffer.getLast() != "right") && (this.dirBuffer.size() > 0)) {
                     this.dirBuffer.add("left");
                 }
                 break;
             case "ArrowRight", "d":
-                if ((this.dirBuffer.size() == 0) && (this.direction != "left") || this.dirBuffer.getLast() != "left") {
+                if (((this.dirBuffer.size() == 0) && (this.direction != "left")) || (this.dirBuffer.getLast() != "left") && (this.dirBuffer.size() > 0)) {
                     this.dirBuffer.add("right");
                 }
                 break;
