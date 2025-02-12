@@ -1,10 +1,10 @@
-package project.SnakeGame;
+package com.snakegame.snakegame;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SnakeGameApplicationTests {
+class SnakegameApplicationTests {
 
 	@Test
 	void contextLoads() {

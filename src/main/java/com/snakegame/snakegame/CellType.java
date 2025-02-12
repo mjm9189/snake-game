@@ -1,4 +1,4 @@
-package com.SnakeGame;
+package com.snakegame.snakegame;
 
 public enum CellType {
         EMPTY,

@@ -12,21 +12,14 @@ let currentGameState = {
 };
 
 async function fetchGameState() {
-    let response = await fetch("http://localhost:8080/game/state");
-    currentGameState = await response.json();
-    updateGameDisplay(currentGameState);
+    try {
+        let response = await fetch("http://localhost:8080/game/state");
+        currentGameState = await response.json();
+        updateGameDisplay(currentGameState);
+    } catch (error) {
+        console.error("Failed to fetch game state: ", error);
+    }
 }
-
-//Fetch game state every 100ms to sync with backend updates
-window.onload = () => {setInterval(fetchGameState, 100)}
-
-document.addEventListener("keydown", async (event) => {
-    await fetch("http://localhost:8080/game/move", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ direction: event.key })
-    });
-});
 
 function updateGameDisplay(gameState) {
     if (currentGameState.inProgress) {
@@ -61,3 +54,14 @@ function setPosition(element, position) {
     element.style.gridRow = position.y;
     element.style.gridColumn = position.x;
 }
+
+document.addEventListener("keydown", async (event) => {
+    await fetch("http://localhost:8080/game/move", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ direction: event.key })
+    });
+});
+
+// Fetch game state every 100ms to sync with backend updates
+window.onload = () => {setInterval(fetchGameState, 100)}

@@ -1,4 +1,4 @@
-package com.SnakeGame;
+package com.snakegame.snakegame;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +30,7 @@ public class GameController {
                 game.takeTurn(); // Move the snake automatically
                 latestGameState = this.game.getGameState();
             } 
-        }, 0L, 100L, TimeUnit.MILLISECONDS);
+        }, 10000L, 100L, TimeUnit.MILLISECONDS);
     }
 
     @GetMapping("/state")
@@ -39,7 +39,7 @@ public class GameController {
     }
 
     @PostMapping("/move")
-    public void handleKeyPress(@RequestBody Map<String, String> request) {
+    public String handleKeyPress(@RequestBody Map<String, String> request) {
         if (this.latestGameState.get("inProgress").equals(true)) {
             String direction = request.get("direction");
             game.handleKeyPress(direction);
@@ -47,6 +47,7 @@ public class GameController {
             game.newGame();
             latestGameState = this.game.getGameState();
         }
+        return "Success";
     }
 
     @PreDestroy

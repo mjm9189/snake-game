@@ -1,4 +1,4 @@
-package com.SnakeGame;
+package com.snakegame.snakegame;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +15,15 @@ public class Game {
     private int currScore = 0;
     private int highScore = 0;
     private boolean gameStart = false;
+
+    public Game() {
+        this.board = new Board(23, 22);
+        this.emptyCells = this.board.emptyCells;
+        this.snake = new Snake(board.getCell(12, 6));
+        this.foodCell = this.board.getCell(12, 12);
+        this.emptyCells.removeCell(this.snake.getHead());
+        this.emptyCells.removeCell(this.foodCell);
+    }
 
     public void newGame() {
         gameStart = true;
