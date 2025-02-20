@@ -8,7 +8,6 @@ public class Game {
 
     private Snake snake;
     private Board board;
-    private EmptyCellsSet emptyCells;
     private Cell foodCell;
     private String direction;
     private LinkedList<String> dirBuffer;
@@ -28,11 +27,10 @@ public class Game {
     public void newGame() {
         gameStart = true;
         this.board = new Board(23, 22);
-        this.emptyCells = this.board.emptyCells;
         this.snake = new Snake(board.getCell(12, 6));
         this.foodCell = this.board.getCell(12, 12);
-        this.emptyCells.removeCell(this.snake.getHead());
-        this.emptyCells.removeCell(this.foodCell);
+        this.board.removeEmpty(this.snake.getHead());
+        this.board.removeEmpty(this.foodCell);
         this.currScore = 0;
         this.dirBuffer = new LinkedList<>();
         this.direction = "right";
@@ -43,9 +41,8 @@ public class Game {
     }
 
     public void generateFood() {
-        Cell newFood = this.emptyCells.getRandomCell();
-        this.emptyCells.replaceCell(this.foodCell, newFood);
-        this.foodCell = newFood;
+        this.foodCell = this.board.getRandomEmpty();;
+        this.board.removeEmpty(this.foodCell);
         this.foodCell.setCellType(CellType.FOOD);
     }
 
