@@ -10,11 +10,11 @@ public class Game {
     private Snake snake;
     private Board board;
     private Cell foodCell;
-    private String direction;
-    private LinkedList<String> dirBuffer;
+    private String direction;  // direction the snake should move in on its next turn if no keypress is buffered
+    private LinkedList<String> dirBuffer;  // queue of buffered directions
     private int currScore;
     private int highScore;
-    private boolean gameStart;
+    private boolean gameStart;  // Flag to track whether a game is in progress or has ended
 
     /**
      * Constructor for Game class
@@ -25,6 +25,9 @@ public class Game {
         this.highScore = 0;
     }
 
+    /**
+     * Reset Game attributes for start of a new game
+     */
     public void newGame() {
         gameStart = true;
         this.board = new Board(23, 22);
@@ -37,16 +40,18 @@ public class Game {
         this.direction = "right";
     }
 
-    public void endGame() {
-        gameStart = false;
-    }
-
+    /**
+     * Set foodCell to a random empty cell on the board
+     */
     public void generateFood() {
-        this.foodCell = this.board.getRandomEmpty();;
+        this.foodCell = this.board.getRandomEmpty();
         this.board.removeEmpty(this.foodCell);
         this.foodCell.setCellType(CellType.FOOD);
     }
 
+    /**
+     * Updates the game state based on the direction the snake is currently set to move in
+     */
     public void takeTurn() {
         Cell nextCell = this.snake.getHead();
         if (this.dirBuffer.size() > 0) {
@@ -88,14 +93,24 @@ public class Game {
         }
     }
 
+    /**
+     * Use keypress received by the front-end to update the movement direction for the snake
+     *
+     * @param keyPress: string representing a keypress
+     */
     public void handleKeyPress(String keyPress) {
+        // Only add to buffer if doing so won't cause noticeably delayed movement
         if (this.dirBuffer.size() <= 2) {
             String mostRecentDir;
+
+            // Track direction most recently input by user
             if (this.dirBuffer.isEmpty()) {
                 mostRecentDir = this.direction;
             } else {
                 mostRecentDir = this.dirBuffer.getLast();
             }
+
+            // Only allow movements orthogonal to most recently input
             switch (keyPress) {
                 case "ArrowUp", "w":
                     if (!Objects.equals(mostRecentDir, "down")) {
@@ -123,12 +138,18 @@ public class Game {
         }
     }
 
+    /**
+     * Retrieve critical game state information to be read by the front-end
+     *
+     * @return Map of game state values
+     */
     public Map<String, Object> getGameState() {
         Map<String, Object> state = new HashMap<>();
         state.put("inProgress", this.gameStart);
         state.put("score", this.currScore);
         state.put("highScore", this.highScore);
         if (!this.gameStart) {
+            // Only return values that have been initialized
             return state;
         }
         state.put("snake", this.snake.getSnakeCells());
