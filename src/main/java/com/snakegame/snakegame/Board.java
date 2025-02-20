@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class Board {
 
-    private Cell[][] cells;
-    public EmptyCellsSet emptyCells;
+    private final Cell[][] cells;  // 2D array of cells representing the board
+    private final EmptyCellsSet emptyCells;
+
 
     public Board(int row_count, int col_count) {
         ArrayList<Cell> emptyCellStarts = new ArrayList<>();

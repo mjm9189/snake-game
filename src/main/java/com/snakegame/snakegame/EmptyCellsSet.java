@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class EmptyCellsSet {
-    private ArrayList<Cell> emptyCells;
+    private final ArrayList<Cell> emptyCells;  // Stores empty cells based on the index attribute of each cell
 
     public EmptyCellsSet(ArrayList<Cell> emptyCells) {
         this.emptyCells = emptyCells;
     }
-    
+
     public void replaceCell(Cell outCell, Cell inCell) {
         int index = outCell.getEmptyArrayIndex();
         outCell.setEmptyArrayIndex(5000);

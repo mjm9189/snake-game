@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public class Cell {
 
-    private final int row, col;
-    private CellType cellType = CellType.EMPTY;
-    private int emptyArrayIndex;
+    private final int row, col;  // coordinates of the cell
+    private CellType cellType = CellType.EMPTY;  // type of the cell
+    private int emptyArrayIndex;  // index of the cell in the emptyCells array for the board
 
     public Cell(int row, int col) {
         this.row = row;
