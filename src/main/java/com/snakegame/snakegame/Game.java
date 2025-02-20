@@ -16,6 +16,9 @@ public class Game {
     private int highScore = 0;
     private boolean gameStart = false;
 
+    /**
+     * Constructor for Game class
+     */
     public Game() {
         this.board = new Board(23, 22);
         this.emptyCells = this.board.emptyCells;
