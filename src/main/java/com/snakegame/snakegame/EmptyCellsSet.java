@@ -8,7 +8,7 @@ public class EmptyCellsSet {
 
     /**
      * Constructor for the EmptyCellsSet class
-     *
+     * 
      * @param emptyCells: array of empty cells
      */
     public EmptyCellsSet(ArrayList<Cell> emptyCells) {
@@ -31,7 +31,7 @@ public class EmptyCellsSet {
     /**
      * Removes a previously empty cell from the array, then replaces it with the last cell in the array to ensure that
      * all array elements are real empty cells
-     *
+     * 
      * @param cell: cell to be removed from the array
      */
     public void removeCell(Cell cell) {
@@ -41,7 +41,7 @@ public class EmptyCellsSet {
 
     /**
      * Retrieves a random empty cell from the array for use in generating food
-     *
+     * 
      * @return random empty cell
      */
     public Cell getRandomCell() {
