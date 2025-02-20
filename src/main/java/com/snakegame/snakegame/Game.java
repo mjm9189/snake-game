@@ -53,43 +53,39 @@ public class Game {
      * Updates the game state based on the direction the snake is currently set to move in
      */
     public void takeTurn() {
-        Cell nextCell = this.snake.getHead();
-        if (this.dirBuffer.size() > 0) {
+        if (!this.dirBuffer.isEmpty()) {
+            // Set the direction to be moved in for the turn to the earliest in the buffer
             this.direction = this.dirBuffer.removeFirst();
         }
-        
-        switch (this.direction) {
-            case "up":
-                nextCell = this.board.getCell(this.snake.getHead().getRow() - 1, this.snake.getHead().getCol());
-                break;
-            case "down":
-                nextCell = this.board.getCell(this.snake.getHead().getRow() + 1, this.snake.getHead().getCol());
-                break;
-            case "left":
-                nextCell = this.board.getCell(this.snake.getHead().getRow(), this.snake.getHead().getCol() - 1);
-                break;
-            case "right":
-                nextCell = this.board.getCell(this.snake.getHead().getRow(), this.snake.getHead().getCol() + 1);
-                break;
-        }
 
+        // Retrieve the Cell into which the snake will move from the board based on the current direction
+        Cell nextCell = switch (this.direction) {
+            case "up" -> this.board.getCell(this.snake.getHead().getRow() - 1, this.snake.getHead().getCol());
+            case "down" -> this.board.getCell(this.snake.getHead().getRow() + 1, this.snake.getHead().getCol());
+            case "left" -> this.board.getCell(this.snake.getHead().getRow(), this.snake.getHead().getCol() - 1);
+            case "right" -> this.board.getCell(this.snake.getHead().getRow(), this.snake.getHead().getCol() + 1);
+            default -> this.snake.getHead();
+        };
         CellType nextCellType = nextCell.getCellType();
-        Cell tail = snake.move(nextCell);
-        if (nextCellType == CellType.WALL || nextCellType == CellType.SNAKE) {
-            this.endGame();
-            return;
-        } else if (nextCellType == CellType.FOOD) {
-            this.currScore += 1;
-            if (this.currScore > this.highScore) {
-                this.highScore = this.currScore;
-            }
-            this.generateFood();
-        }
 
-        if (tail.getCellType() == CellType.SNAKE) {
-            this.emptyCells.removeCell(tail);
-        } else if (tail.getCellType() == CellType.EMPTY) {
-            this.emptyCells.replaceCell(this.snake.getHead(), tail);
+        if (nextCellType == CellType.WALL || nextCellType == CellType.SNAKE) {
+            // Flag the end of the current game if snake hits wall or itself
+            this.gameStart = false;
+        } else {
+            Cell tail = this.snake.move(nextCell);
+            if (nextCellType == CellType.FOOD) {
+                // Update score and generate new food if snake eats
+                this.currScore += 1;
+                if (this.currScore > this.highScore) {
+                    // Update high score if applicable
+                    this.highScore = this.currScore;
+                }
+                this.generateFood();
+            } else {
+                // Update EmptyCellSet to include cells the snake has left and remove those it's entered
+                Cell head = this.snake.getHead();
+                this.board.replaceEmpty(head, tail);
+            }
         }
     }
 
