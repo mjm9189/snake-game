@@ -36,12 +36,15 @@ public class Snake {
         this.head = nextCell;
         this.head.setCellType(CellType.SNAKE);
         this.snakeBody.addFirst(head);
-        if (nextCell.getCellType() != CellType.FOOD) {
+
+        // Return previous end of tail and set to EMPTY if new cell wasn't food
+        if (newCellType == CellType.FOOD) {
+            return this.snakeBody.getLast();
+        } else {
+            Cell tail = this.snakeBody.removeLast();
             tail.setCellType(CellType.EMPTY);
-        }  else {
-            this.snakeBody.addLast(tail);
+            return tail;
         }
-        return tail;
     }
 
     /**
