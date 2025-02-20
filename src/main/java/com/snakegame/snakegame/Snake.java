@@ -64,8 +64,8 @@ public class Snake {
     public List<Map<String, Integer>> getSnakeCells() {
         // Return a list of the snake's cells for front-end use
         List<Map<String, Integer>> snakeCells = new ArrayList<>();
-        for (int i = 0; i < this.snakeBody.size(); i++) {
-            snakeCells.add(this.snakeBody.get(i).getCellPosition());
+        for (Cell cell : this.snakeBody) {
+            snakeCells.add(cell.getCellPosition());
         }
         return snakeCells;
     }
