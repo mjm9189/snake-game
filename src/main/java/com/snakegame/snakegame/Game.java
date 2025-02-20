@@ -3,6 +3,7 @@ package com.snakegame.snakegame;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Game {
 
@@ -88,32 +89,37 @@ public class Game {
     }
 
     public void handleKeyPress(String keyPress) {
-        if (this.dirBuffer.size() > 2) {
-            return;
-        }
-        switch (keyPress) {
-            case "ArrowUp", "w":
-                if (((this.dirBuffer.size() == 0) && (this.direction != "down")) || ((this.dirBuffer.getLast() != "down") && (this.dirBuffer.size() > 0))) {
-                    this.dirBuffer.add("up");
-                }
-                break;
-            case "ArrowDown", "s":
-                if (((this.dirBuffer.size() == 0) && (this.direction != "up")) || ((this.dirBuffer.getLast() != "up") && (this.dirBuffer.size() > 0))) {
-                    this.dirBuffer.add("down");
-                }
-                break;
-            case "ArrowLeft", "a":
-                if (((this.dirBuffer.size() == 0) && (this.direction != "right")) || (this.dirBuffer.getLast() != "right") && (this.dirBuffer.size() > 0)) {
-                    this.dirBuffer.add("left");
-                }
-                break;
-            case "ArrowRight", "d":
-                if (((this.dirBuffer.size() == 0) && (this.direction != "left")) || (this.dirBuffer.getLast() != "left") && (this.dirBuffer.size() > 0)) {
-                    this.dirBuffer.add("right");
-                }
-                break;
-            default:
-                break;
+        if (this.dirBuffer.size() <= 2) {
+            String mostRecentDir;
+            if (this.dirBuffer.isEmpty()) {
+                mostRecentDir = this.direction;
+            } else {
+                mostRecentDir = this.dirBuffer.getLast();
+            }
+            switch (keyPress) {
+                case "ArrowUp", "w":
+                    if (!Objects.equals(mostRecentDir, "down")) {
+                        this.dirBuffer.add("up");
+                    }
+                    break;
+                case "ArrowDown", "s":
+                    if (!Objects.equals(mostRecentDir, "up")) {
+                        this.dirBuffer.add("down");
+                    }
+                    break;
+                case "ArrowLeft", "a":
+                    if (!Objects.equals(mostRecentDir, "right")) {
+                        this.dirBuffer.add("left");
+                    }
+                    break;
+                case "ArrowRight", "d":
+                    if (!Objects.equals(mostRecentDir, "left")) {
+                        this.dirBuffer.add("right");
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
