@@ -10,22 +10,19 @@ public class Game {
     private Board board;
     private EmptyCellsSet emptyCells;
     private Cell foodCell;
-    private String direction = "right";
-    private LinkedList<String> dirBuffer = new LinkedList<>();
-    private int currScore = 0;
-    private int highScore = 0;
-    private boolean gameStart = false;
+    private String direction;
+    private LinkedList<String> dirBuffer;
+    private int currScore;
+    private int highScore;
+    private boolean gameStart;
 
     /**
      * Constructor for Game class
      */
     public Game() {
-        this.board = new Board(23, 22);
-        this.emptyCells = this.board.emptyCells;
-        this.snake = new Snake(board.getCell(12, 6));
-        this.foodCell = this.board.getCell(12, 12);
-        this.emptyCells.removeCell(this.snake.getHead());
-        this.emptyCells.removeCell(this.foodCell);
+        this.gameStart = false;
+        this.currScore = 0;
+        this.highScore = 0;
     }
 
     public void newGame() {
