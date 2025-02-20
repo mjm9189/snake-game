@@ -8,6 +8,12 @@ public class Board {
     private final EmptyCellsSet emptyCells;
 
 
+    /**
+     * Constructor for Board class
+     *
+     * @param row_count: total number of playable rows
+     * @param col_count: total number of playable columns
+     */
     public Board(int row_count, int col_count) {
         ArrayList<Cell> emptyCellStarts = new ArrayList<>();  // Starter array for emptyCellSet
         int i = 0;  // Index for placement into emptyCellStarts
@@ -30,8 +36,43 @@ public class Board {
         this.emptyCells = new EmptyCellsSet(emptyCellStarts);
     }
 
+    /**
+     * Retrieves the cell at a given set of coordinates
+     *
+     * @param row: Row of desired Cell
+     * @param col: Column of desired Cell
+     * @return Cell located at indices (row, col)
+     */
     public Cell getCell(int row, int col) {
         // Retrieves the cell at the given row and column
         return this.cells[row][col];
+    }
+
+    /**
+     * Removes a Cell from the emptyCellSet
+     *
+     * @param cell: Cell being removed
+     */
+    public void removeEmpty(Cell cell) {
+        this.emptyCells.removeCell(cell);
+    }
+
+    /**
+     * Replaces a Cell in the emptyCellSet with one outside of it
+     *
+     * @param outCell: Cell being removed
+     * @param inCell: Cell being placed in
+     */
+    public void replaceEmpty(Cell outCell, Cell inCell) {
+        this.emptyCells.replaceCell(outCell, inCell);
+    }
+
+    /**
+     * Retrieves a random empty Cell
+     *
+     * @return empty Cell
+     */
+    public Cell getRandomEmpty() {
+        return this.emptyCells.getRandomCell();
     }
 }
