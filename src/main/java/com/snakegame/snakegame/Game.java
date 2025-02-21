@@ -14,13 +14,16 @@ public class Game {
     private LinkedList<String> dirBuffer;  // queue of buffered directions
     private int currScore;
     private int highScore;
-    private boolean gameStart;  // Flag to track whether a game is in progress or has ended
+    private boolean inProgress;  // Flag to track whether a game is in progress or has ended
+    private boolean gameOver;  // Flag to determine if game needs to end on next turn
+
 
     /**
      * Constructor for Game class
      */
     public Game() {
-        this.gameStart = false;
+        this.inProgress = false;
+        this.gameOver = false;
         this.currScore = 0;
         this.highScore = 0;
     }
@@ -29,8 +32,9 @@ public class Game {
      * Reset Game attributes for start of a new game
      */
     public void newGame() {
-        gameStart = true;
-        this.board = new Board(23, 22);
+        inProgress = true;
+        gameOver = false;
+        this.board = new Board(21, 20);
         this.snake = new Snake(board.getCell(12, 6));
         this.foodCell = this.board.getCell(12, 12);
         this.foodCell.setCellType(CellType.FOOD);
@@ -59,6 +63,12 @@ public class Game {
             this.direction = this.dirBuffer.removeFirst();
         }
 
+        if (this.gameOver) {
+            // End game if previous turn hit resulted in game over
+            this.inProgress = false;
+            return;
+        }
+
         // Retrieve the Cell into which the snake will move from the board based on the current direction
         Cell nextCell = switch (this.direction) {
             case "up" -> this.board.getCell(this.snake.getHead().getRow() - 1, this.snake.getHead().getCol());
@@ -71,7 +81,11 @@ public class Game {
 
         if (nextCellType == CellType.WALL || nextCellType == CellType.SNAKE) {
             // Flag the end of the current game if snake hits wall or itself
-            this.gameStart = false;
+            if (nextCellType == CellType.WALL) {
+                // Move snake to draw collision with wall
+                this.snake.move(nextCell);
+            }
+            this.gameOver = true;
         } else {
             Cell tail = this.snake.move(nextCell);
             if (nextCellType == CellType.FOOD) {
@@ -142,10 +156,11 @@ public class Game {
      */
     public Map<String, Object> getGameState() {
         Map<String, Object> state = new HashMap<>();
-        state.put("inProgress", this.gameStart);
+        state.put("inProgress", this.inProgress);
+        state.put("gameOver", this.gameOver);
         state.put("score", this.currScore);
         state.put("highScore", this.highScore);
-        if (!this.gameStart) {
+        if (!this.inProgress) {
             // Only return values that have been initialized
             return state;
         }

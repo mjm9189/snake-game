@@ -81,8 +81,8 @@ public class Cell {
      */
     public HashMap<String, Integer> getCellPosition() {
         HashMap<String, Integer> position = new HashMap<>();
-        position.put("y", this.row);
-        position.put("x", this.col);
+        position.put("y", this.row + 1);
+        position.put("x", this.col + 1);
         return position;
     }
 }
