@@ -33,6 +33,7 @@ public class Game {
         this.board = new Board(23, 22);
         this.snake = new Snake(board.getCell(12, 6));
         this.foodCell = this.board.getCell(12, 12);
+        this.foodCell.setCellType(CellType.FOOD);
         this.board.removeEmpty(this.snake.getHead());
         this.board.removeEmpty(this.foodCell);
         this.currScore = 0;
