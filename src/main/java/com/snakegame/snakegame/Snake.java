@@ -23,7 +23,7 @@ public class Snake {
     }
 
     /**
-     * Moves the snake to nextCell, adjusting snakeBody and head as neaded. Method assumes that nextCell is valid to
+     * Moves the snake to nextCell, adjusting snakeBody and head as needed. Method assumes that nextCell is valid to
      * move into.
      *
      * @param nextCell: Cell the snake moves into
