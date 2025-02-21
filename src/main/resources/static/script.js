@@ -1,5 +1,5 @@
 const gameBoard = document.getElementById("game-board");
-const instructions = document.getElementById("instructions");
+const startButton = document.getElementById("start-button");
 const logo = document.getElementById("logo");
 const score = document.getElementById("score");
 const highScore = document.getElementById("highScore");
@@ -8,12 +8,13 @@ let currentGameState = {
     food: {x: 12, y: 12},
     score: 0,
     highScore: 0,
-    inProgress: false
+    inProgress: false,
+    gameOver: false
 };
 
 async function fetchGameState() {
     try {
-        let response = await fetch("http://localhost:8080/game/state");
+        let response = await fetch("http://localhost:8080/state");
         currentGameState = await response.json();
         updateGameDisplay(currentGameState);
     } catch (error) {
@@ -24,22 +25,20 @@ async function fetchGameState() {
 function updateGameDisplay(gameState) {
     if (currentGameState.inProgress) {
         gameBoard.innerHTML = "";
-        instructions.style.display = "none";
+        startButton.style.display = "none";
         logo.style.display = "none";
         currentGameState.snake.forEach((snakeSegment) => {
             const snakeElement = createGameElement("div", "snake");
             setPosition(snakeElement, snakeSegment);
             gameBoard.appendChild(snakeElement);
         });
-        foodElement = createGameElement("div", "food");
+        let foodElement = createGameElement("div", "food");
         setPosition(foodElement, gameState.food);
         gameBoard.appendChild(foodElement);
         score.textContent = currentGameState.score.toString().padStart(3, "0");
-        if (currentGameState.score > currentGameState.highScore) {
-            highScore.textContent = score.textContent;
-        }
+        highScore.textContent = currentGameState.highScore.toString().padStart(3, "0");
     } else {
-        instructions.style.display = "block";
+        startButton.style.display = "block";
         logo.style.display = "block";
     }
 }
@@ -56,7 +55,7 @@ function setPosition(element, position) {
 }
 
 document.addEventListener("keydown", async (event) => {
-    await fetch("http://localhost:8080/game/move", {
+    await fetch("http://localhost:8080/move", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ direction: event.key })

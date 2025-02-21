@@ -68,16 +68,29 @@ body,
     border: #999 5px solid;
 }
 
-#logo {
+.container-interior {
+    position: relative;
+}
+
+.begin-screen {
     position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 20%;
+    left: 21%;
+}
+
+#logo {
+    position: relative;
+    left: 23px
 }
 
 #start-button {
     transition-duration: 0.2s;
     background-color: #8b966c;
-    position: absolute;
-    top: 65vh;
     border: none;
+    position: relative;
+    top: 20px;
     color: #333;
     font-size: 35px;
     padding: 12px 28px;
