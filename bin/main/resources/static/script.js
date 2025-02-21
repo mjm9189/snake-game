@@ -13,7 +13,7 @@ let currentGameState = {
 
 async function fetchGameState() {
     try {
-        let response = await fetch("http://localhost:8080/game/state");
+        let response = await fetch("localhost:8080/state");
         currentGameState = await response.json();
         updateGameDisplay(currentGameState);
     } catch (error) {
@@ -56,7 +56,7 @@ function setPosition(element, position) {
 }
 
 document.addEventListener("keydown", async (event) => {
-    await fetch("http://localhost:8080/game/move", {
+    await fetch("localhost:8080/move", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ direction: event.key })
