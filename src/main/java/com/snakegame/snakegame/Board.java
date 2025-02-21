@@ -16,7 +16,6 @@ public class Board {
      */
     public Board(int row_count, int col_count) {
         ArrayList<Cell> emptyCellStarts = new ArrayList<>();  // Starter array for emptyCellSet
-        int i = 0;  // Index for placement into emptyCellStarts
 
         this.cells = new Cell[row_count + 2][col_count + 2];  // Create a 2D array of cells with walls around the edges
         for (int row = 0; row < row_count + 2; row ++) {
@@ -27,7 +26,6 @@ public class Board {
                 if (row == 0 || row == row_count + 1 || col == 0 || col == col_count + 1) {
                     this.cells[row][col].setCellType(CellType.WALL);
                 } else {
-                this.cells[row][col].setEmptyArrayIndex(i);  // Store the index of the cell in the emptyCellStarts array as attribute
                 emptyCellStarts.add(this.cells[row][col]);
                 }
             }
@@ -64,7 +62,8 @@ public class Board {
      * @param inCell: Cell being placed in
      */
     public void replaceEmpty(Cell outCell, Cell inCell) {
-        this.emptyCells.replaceCell(outCell, inCell);
+        this.emptyCells.removeCell(outCell);
+        this.emptyCells.addCell(inCell);
     }
 
     /**

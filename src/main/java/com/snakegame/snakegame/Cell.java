@@ -6,8 +6,6 @@ public class Cell {
 
     private final int row, col;  // coordinates of the cell
     private CellType cellType = CellType.EMPTY;  // type of the cell
-    private int emptyArrayIndex;  // index of the cell in the emptyCells array for the board
-
     /**
      * Constructor for the Cell class
      *
@@ -17,6 +15,27 @@ public class Cell {
     public Cell(int row, int col) {
         this.row = row;
         this.col = col;
+    }
+
+    /**
+     * Determines equality of two Cells based on their row and column indices
+     *
+     * @param obj: object to compare against
+     * @return boolean determining equality of cell to input object
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        final Cell other = (Cell) obj;
+
+        return this.row == other.getRow() && this.col == other.getCol();
     }
 
     /**
@@ -65,23 +84,5 @@ public class Cell {
         position.put("y", this.row);
         position.put("x", this.col);
         return position;
-    }
-
-    /**
-     * Sets the index of the cell in the emptyCells array for the board
-     *
-     * @param index: index of the cell in the emptyCells array for the board
-     */
-    public void setEmptyArrayIndex(int index) {
-        this.emptyArrayIndex = index;
-    }
-
-    /**
-     * Retrieves the index of the cell in the emptyCells array for the board
-     *
-     * @return index of the cell in the emptyCells array for the board
-     */
-    public int getEmptyArrayIndex() {
-        return this.emptyArrayIndex;
     }
 }

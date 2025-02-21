@@ -16,27 +16,21 @@ public class EmptyCellsSet {
     }
     
     /**
-     * Swaps the emptyArrayIndex of a previously empty cell with a newly emptied one
+     * Adds cell to array
      *
-     * @param outCell: cell to be removed from the array
-     * @param inCell: cell to be added to the array
+     * @param cell: cell to be added to array
      */
-    public void replaceCell(Cell outCell, Cell inCell) {
-        int index = outCell.getEmptyArrayIndex();
-        outCell.setEmptyArrayIndex(5000);
-        this.emptyCells.add(index, inCell);
-        inCell.setEmptyArrayIndex(index);
+    public void addCell(Cell cell) {
+        this.emptyCells.add(cell);
     }
 
     /**
-     * Removes a previously empty cell from the array, then replaces it with the last cell in the array to ensure that
-     * all array elements are real empty cells
+     * Removes a previously empty cell from the array
      * 
      * @param cell: cell to be removed from the array
      */
     public void removeCell(Cell cell) {
-        Cell last = this.emptyCells.get(this.emptyCells.size() - 1);
-        this.replaceCell(cell, last);
+        this.emptyCells.remove(cell);
     }
 
     /**
