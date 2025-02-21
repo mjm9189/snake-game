@@ -2,39 +2,24 @@ package com.snakegame.snakegame;
 
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.PreDestroy;
-
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*") // Allow frontend requests
-@RequestMapping("/game")
-
 public class GameController {
-
-    private Game game = new Game();
-    private volatile Map<String, Object> latestGameState = this.game.getGameState(); // Stores latest state
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final Game game;
+    private volatile Map<String, Object> latestGameState;
 
     public GameController() {
-        startGameLoop();
-    }
-
-    // Start a background thread that updates the game state every 100ms
-    private void startGameLoop() {
-        scheduler.scheduleAtFixedRate(() -> {
-            if (this.latestGameState.get("inProgress").equals(true)) {
-                game.takeTurn(); // Move the snake automatically
-                latestGameState = this.game.getGameState();
-            } 
-        }, 10000L, 100L, TimeUnit.MILLISECONDS);
+        this.game = new Game();
+        this.latestGameState = this.game.getGameState();
     }
 
     @GetMapping("/state")
     public Map<String, Object> getGameState() {
+        if (this.latestGameState.get("inProgress").equals(true)) {
+            this.game.takeTurn();
+            this.latestGameState = this.game.getGameState();
+        }
         return this.latestGameState;
     }
 
@@ -42,16 +27,12 @@ public class GameController {
     public String handleKeyPress(@RequestBody Map<String, String> request) {
         if (this.latestGameState.get("inProgress").equals(true)) {
             String direction = request.get("direction");
-            game.handleKeyPress(direction);
+            this.game.handleKeyPress(direction);
         } else {
-            game.newGame();
-            latestGameState = this.game.getGameState();
+            this.game.newGame();
+            this.game.takeTurn();
+            this.latestGameState = this.game.getGameState();
         }
         return "Success";
-    }
-
-    @PreDestroy
-    public void shutdown() {
-        scheduler.shutdown();
     }
 }
