@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Snake {
 
-    private final LinkedList<Cell> snakeBody = new LinkedList<>();  // List of cells that make up the snake body in order
+    private final LinkedList<Cell> snakeBody = new LinkedList<>();  // Ordered list of snake body cells
     private Cell head;
 
 
