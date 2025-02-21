@@ -107,25 +107,25 @@ public class Game {
                 mostRecentDir = this.dirBuffer.getLast();
             }
 
-            // Only allow movements orthogonal to most recently input
+            // Only allow movements orthogonal to most recently input direction
             switch (keyPress) {
                 case "ArrowUp", "w":
-                    if (!Objects.equals(mostRecentDir, "down")) {
+                    if (!Objects.equals(mostRecentDir, "down") && ! Objects.equals(mostRecentDir, "up")) {
                         this.dirBuffer.add("up");
                     }
                     break;
                 case "ArrowDown", "s":
-                    if (!Objects.equals(mostRecentDir, "up")) {
+                    if (!Objects.equals(mostRecentDir, "up") && !Objects.equals(mostRecentDir, "down")) {
                         this.dirBuffer.add("down");
                     }
                     break;
                 case "ArrowLeft", "a":
-                    if (!Objects.equals(mostRecentDir, "right")) {
+                    if (!Objects.equals(mostRecentDir, "right") && !Objects.equals(mostRecentDir, "left")) {
                         this.dirBuffer.add("left");
                     }
                     break;
                 case "ArrowRight", "d":
-                    if (!Objects.equals(mostRecentDir, "left")) {
+                    if (!Objects.equals(mostRecentDir, "left") && !Objects.equals(mostRecentDir, "right")) {
                         this.dirBuffer.add("right");
                     }
                     break;
