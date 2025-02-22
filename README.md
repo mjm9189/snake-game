@@ -9,7 +9,7 @@ of all functions using both JavaDoc docstrings and regular comments throughout
 the code. I utilized Maven to build the project.
 
 My front-end was heavily inspired by [this project](https://github.com/Ade-mir/snake-game-js)
-by [Ade-mir](https://github.com/Ade-mir) on GitHub. In particular, I tweaked
+by [@Ade-mir](https://github.com/Ade-mir) on GitHub. In particular, I tweaked
 his HTML and CSS to add a Start Game button, as well as a Game Over screen.
 I also took inspiration from his method of drawing both the snake and its food
 on the game board with JavaScript, with major tweaks/additions by myself in 
