@@ -80,17 +80,23 @@ body,
     left: 21%;
 }
 
+.game-over-screen {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 20%;
+    left: 21%;
+}
+
 #logo {
     position: relative;
     left: 23px
 }
 
-#start-button {
+#start-button, #new-game-button {
     transition-duration: 0.2s;
     background-color: #8b966c;
     border: none;
-    position: relative;
-    top: 20px;
     color: #333;
     font-size: 35px;
     padding: 12px 28px;
@@ -98,6 +104,22 @@ body,
     font-family: "VT323", monospace;
 }
 
-#start-button:hover {
+#start-button {
+    position: relative;
+    top: 20px;
+}
+
+#new-game-button {
+    position: relative;
+    top: -25px;
+    left: 38px;
+    display: none;
+}
+
+#game-over {
+    display: none;
+}
+
+#start-button:hover, #new-game-button:hover {
     background-color: #808b63;
 }

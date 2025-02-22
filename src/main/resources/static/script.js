@@ -1,17 +1,11 @@
 const gameBoard = document.getElementById("game-board");
 const startButton = document.getElementById("start-button");
+const newGameButton = document.getElementById("new-game-button")
+const gameOverImg = document.getElementById("game-over")
 const logo = document.getElementById("logo");
 const score = document.getElementById("score");
 const highScore = document.getElementById("highScore");
-let initialState = {
-    snake: [{ x: 6, y: 12 }],
-    food: {x: 12, y: 12},
-    score: 0,
-    highScore: 0,
-    inProgress: false,
-    gameOver: false
-};
-let currentGameState = initialState;
+let currentGameState;
 window.refreshIntervalId = null;
 
 async function fetchGameState() {
@@ -41,11 +35,16 @@ function updateGameDisplay(gameState) {
         setPosition(foodElement, gameState.food);
         gameBoard.appendChild(foodElement);
         score.textContent = currentGameState.score.toString().padStart(3, "0");
+    } else if (currentGameState.gameOver) {
+        newGameButton.style.display = "block";
+        gameOverImg.style.display = "block";
         highScore.textContent = currentGameState.highScore.toString().padStart(3, "0");
     } else {
-        initialState.highScore = currentGameState.highScore;
-        currentGameState = initialState;
+        // initialState.highScore = currentGameState.highScore;
+        // currentGameState = initialState;
         gameBoard.innerHTML = "";
+        newGameButton.style.display = "none";
+        gameOverImg.style.display = "none";
         startButton.style.display = "block";
         logo.style.display = "block";
     }
@@ -87,4 +86,9 @@ function newGame() {
             console.error("Error:", error);
         });
     window.refreshIntervalId = setInterval(fetchGameState, 170)
+}
+
+function resetGame() {
+    currentGameState.gameOver = false;
+    updateGameDisplay();
 }
