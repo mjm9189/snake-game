@@ -24,15 +24,18 @@ public class GameController {
     }
 
     @PostMapping("/move")
-    public String handleKeyPress(@RequestBody Map<String, String> request) {
+    public void handleKeyPress(@RequestBody Map<String, String> request) {
         if (this.latestGameState.get("inProgress").equals(true)) {
             String direction = request.get("direction");
             this.game.handleKeyPress(direction);
-        } else {
-            this.game.newGame();
-            this.game.takeTurn();
-            this.latestGameState = this.game.getGameState();
         }
-        return "Success";
+    }
+
+    @PostMapping("/newgame")
+    public String handleNewGame() {
+        this.game.newGame();
+        this.latestGameState = this.game.getGameState();
+        System.out.println("Game started!");
+        return "{\"message\": \"Game started successfully\"}";
     }
 }
