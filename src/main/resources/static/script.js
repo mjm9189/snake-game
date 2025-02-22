@@ -3,7 +3,7 @@ const startButton = document.getElementById("start-button");
 const logo = document.getElementById("logo");
 const score = document.getElementById("score");
 const highScore = document.getElementById("highScore");
-let currentGameState = {
+let initialState = {
     snake: [{ x: 6, y: 12 }],
     food: {x: 12, y: 12},
     score: 0,
@@ -11,11 +11,16 @@ let currentGameState = {
     inProgress: false,
     gameOver: false
 };
+let currentGameState = initialState;
+window.refreshIntervalId = null;
 
 async function fetchGameState() {
     try {
         let response = await fetch("http://localhost:8080/state");
         currentGameState = await response.json();
+        if (currentGameState.gameOver && !currentGameState.inProgress) {
+            clearInterval(window.refreshIntervalId);
+        }
         updateGameDisplay(currentGameState);
     } catch (error) {
         console.error("Failed to fetch game state: ", error);
@@ -38,6 +43,9 @@ function updateGameDisplay(gameState) {
         score.textContent = currentGameState.score.toString().padStart(3, "0");
         highScore.textContent = currentGameState.highScore.toString().padStart(3, "0");
     } else {
+        initialState.highScore = currentGameState.highScore;
+        currentGameState = initialState;
+        gameBoard.innerHTML = "";
         startButton.style.display = "block";
         logo.style.display = "block";
     }
@@ -62,5 +70,21 @@ document.addEventListener("keydown", async (event) => {
     });
 });
 
-// Fetch game state every 100ms to sync with backend updates
-window.onload = () => {setInterval(fetchGameState, 100)}
+function newGame() {
+    fetch("http://localhost:8080/newgame", {
+        method: "POST"
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to start game");
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Game started:", data);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    window.refreshIntervalId = setInterval(fetchGameState, 170)
+}
