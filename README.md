@@ -17,14 +17,19 @@ order to connect to the REST API.
 
 ### Instructions to Run
 #### Requirements
-- Java 23.0.2
-- Spring Boot 3.4.2
+- Java 21.0.6
+- Spring Boot 3.4.3
 - Maven 3.9.9
 #### How to Run
+##### Direct download
 First, install all above-listed requirements. After cloning this repo, navigate to `/snake-game`
 in your terminal and run the command `mvn spring-boot:run`. Alternatively, opening the repo in a
 code editor and clicking the run button on the `SnakegameApplication` class located at
-`/snake-game/src/main/java/com/snakegame/snakegame` should also work.
+`/snake-game/src/main/java/com/snakegame/snakegame` should also work. Then, in your browser,
+navigate to localhost:8080 to play.
+
+##### Docker
+If you've installed Docker, finding and running 
 
 ### Game Rules
 For those unfamiliar with the game, the goal of the player is to control the snake

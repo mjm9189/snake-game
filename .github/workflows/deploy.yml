@@ -1,0 +1,36 @@
+name: Snake CI/CD Pipeline
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Login to Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ github.actor }}/${{ vars.APP_NAME }}:latest
+      -
+        name: Deploy to EC2 Instance
+        uses: appleboy/ssh-action@v1.2.1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.AWS_KEY_ID }}
+          key: ${{ secrets.AWS_ACCESS_KEY }}
+          script:
+            docker stop webapp || true
+            docker rm webapp || true
+            docker pull gchr.io/${{ github.actor }}/${{ vars.APP_NAME }}
+            docker run -d --name webapp -p 8080:8080 ${{ github.actor }}/${{ vars.APP_NAME }}:latest
