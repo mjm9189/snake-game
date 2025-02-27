@@ -1,0 +1,125 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    font-family: "VT323", monospace;
+}
+
+body,
+.snake {
+    background-color: #414141;
+    border: #5a5a5a 1px dotted;
+}
+
+#game-board {
+    border-radius: 100px;
+    display: grid;
+    width: 440px;
+    height: 460px;
+    grid-template-columns: repeat(22, 20px);
+    grid-template-rows: repeat(23, 20px);
+}
+
+.game-border-1 {
+    border: #595f43 solid 10px;
+    border-radius: 30px;
+    box-shadow: inset 0 0 0 10px #595f43;
+}
+.game-border-2 {
+    border: #abb78a solid 8px;
+    border-radius: 26px;
+    box-shadow: inset 0 0 0 1px #abb78a;
+}
+.game-border-3 {
+    border: #8b966c solid 20px;
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 15px #8b966c;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+}
+
+#score {
+    color: #abb78a;
+}
+#highScore {
+    color: #d8ddca;
+    display: block;
+}
+
+#score, 
+#highScore {
+    font-size: 40px;
+    font-weight: bolder;
+    margin: 10px 0;
+}
+
+.game-border-3, #logo {
+    background-color: #c4cfa3;
+}
+
+.food {
+    background-color: #dedede;
+    border: #999 5px solid;
+}
+
+.container-interior {
+    position: relative;
+}
+
+.begin-screen {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 20%;
+    left: 21%;
+}
+
+.game-over-screen {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 20%;
+    left: 21%;
+}
+
+#logo {
+    position: relative;
+    left: 23px
+}
+
+#start-button, #new-game-button {
+    transition-duration: 0.2s;
+    background-color: #8b966c;
+    border: none;
+    color: #333;
+    font-size: 35px;
+    padding: 12px 28px;
+    border-radius: 15px;
+    font-family: "VT323", monospace;
+}
+
+#start-button {
+    position: relative;
+    top: 20px;
+}
+
+#new-game-button {
+    position: relative;
+    top: -25px;
+    left: 38px;
+    display: none;
+}
+
+#game-over {
+    display: none;
+}
+
+#start-button:hover, #new-game-button:hover {
+    background-color: #808b63;
+}
