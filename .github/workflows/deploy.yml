@@ -21,7 +21,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ github.actor }}/snakegame:latest
+          tags: gchr.io/${{ github.actor }}/snakegame:latest
       -
         name: Deploy to EC2 Instance
         uses: appleboy/ssh-action@v1.2.1
@@ -32,5 +32,5 @@ jobs:
           script:
             docker stop webapp || true
             docker rm webapp || true
-            docker pull gchr.io/${{ github.actor }}/${{ vars.APP_NAME }}
+            docker pull gchr.io/${{ github.actor }}/snakegame
             docker run -d --name webapp -p 8080:8080 ${{ github.actor }}/snakegame:latest
