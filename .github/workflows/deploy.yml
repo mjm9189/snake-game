@@ -59,7 +59,7 @@ jobs:
         uses: appleboy/ssh-action@v1.2.1
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.AWS_KEY_ID }}
+          username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.AWS_ACCESS_KEY }}
           script:
             docker stop webapp || true
