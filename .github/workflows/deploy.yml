@@ -55,13 +55,15 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
       -
-        name: Deploy to EC2
+        name: Authenticate AWS
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
           role-session-name: GitHub-Action-Role
-          aws-region: ${{ env.AWS_REGION }}
-      - run: |
+          aws-region: ${{ var.AWS_REGION }}
+      -
+        name: Deploy to EC2
+        run: |
           aws ec2-instance-connect ssh --instance-id ${{ secrets.EC2_INSTANCEID }} --connection-type direct
           docker stop webapp || true
           docker rm webapp || true
