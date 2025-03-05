@@ -1,10 +1,12 @@
 package com.snakegame.snakegame;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Map;
 
 @RestController
+@SessionScope
 public class GameController {
     private final Game game;
     private volatile Map<String, Object> latestGameState;

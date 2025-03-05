@@ -55,14 +55,15 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
       -
-        name: Deploy to EC2 Instance
-        uses: appleboy/ssh-action@v1.2.1
+        name: Deploy to EC2
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.AWS_ACCESS_KEY }}
-          script:
-            docker stop webapp || true
-            docker rm webapp || true
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            docker run -d --name webapp -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
+          role-session-name: GitHub-Action-Role
+          aws-region: ${{ env.AWS_REGION }}
+      - run: |
+          aws ec2-instance-connect ssh --instance-id ${{ secrets.EC2_INSTANCEID }} --connection-type direct
+          docker stop webapp || true
+          docker rm webapp || true
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker run -d --name webapp -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
