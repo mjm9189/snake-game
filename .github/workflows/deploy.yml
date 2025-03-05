@@ -54,6 +54,16 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+  aws:
+    needs: docker
+    runs-on: ubuntu-latest
+    environment: Snake CICD
+    permissions:
+      contents: read
+      packages: read
+      id-token: write
+
+    steps:
       -
         name: Authenticate AWS
         uses: aws-actions/configure-aws-credentials@v1
@@ -62,6 +72,18 @@ jobs:
           role-session-name: GitHub-Action-Role
           aws-region: ${{ secrets.AWS_REGION }}
       -
+        name: Get Runner IP
+        id: ip
+        uses: haythem/public-ip@v1.3
+      -
+        name: Whitelist Runner IP
+        run: |
+          aws ec2 authorize-security-group-ingress \
+          --group-id ${{ secrets.AWS_SECGRPID }} \
+          --protocol tcp \
+          --port 22 \
+          --cidr ${{ steps.id.outputs.ipv4 }}/32
+      -
         name: Deploy to EC2
         run: |
           aws ec2-instance-connect ssh --instance-id ${{ secrets.AWS_EC2INSTANCEID }} --connection-type direct
@@ -69,3 +91,11 @@ jobs:
           docker rm webapp || true
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           docker run -d --name webapp -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      -
+        name: Revoke Runner IP Address
+        run: |
+          aws ec2 revoke-security-group-ingress \
+          --group-id ${{ secrets.AWS_SECGRPID }} \
+          --protocol tcp \
+          --port 22 \
+          --cidr ${{ steps.id.outputs.ipv4 }}/32
