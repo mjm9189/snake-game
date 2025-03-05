@@ -64,7 +64,7 @@ jobs:
       -
         name: Deploy to EC2
         run: |
-          aws ec2-instance-connect ssh --instance-id "${{ secrets.EC2_INSTANCEID }}" --connection-type direct
+          aws ec2-instance-connect ssh --instance-id ${{ secrets.AWS_EC2INSTANCEID }} --connection-type direct
           docker stop webapp || true
           docker rm webapp || true
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
