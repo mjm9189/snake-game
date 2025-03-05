@@ -8,6 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  AWS_REGION: us-west-1
 
 jobs:
   docker:
@@ -60,7 +61,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
           role-session-name: GitHub-Action-Role
-          aws-region: ${{ secrets.MY_AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
       -
         name: Deploy to EC2
         run: |
