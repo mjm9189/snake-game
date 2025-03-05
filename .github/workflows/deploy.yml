@@ -82,7 +82,7 @@ jobs:
           --group-id ${{ secrets.AWS_SECGRPID }} \
           --protocol tcp \
           --port 22 \
-          --cidr ${{ steps.id.outputs.ipv4 }}/32
+          --cidr ${{ steps.ip.outputs.ipv4 }}/32
       -
         name: Deploy to EC2
         run: |
@@ -98,4 +98,4 @@ jobs:
           --group-id ${{ secrets.AWS_SECGRPID }} \
           --protocol tcp \
           --port 22 \
-          --cidr ${{ steps.id.outputs.ipv4 }}/32
+          --cidr ${{ steps.ip.outputs.ipv4 }}/32
