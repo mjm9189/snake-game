@@ -86,7 +86,8 @@ jobs:
       -
         name: Deploy to EC2
         run: |
-          mkdir /home/runner/.shh/known_hosts 
+          mkdir /home/runner/.ssh/known_hosts
+          ssh-keygen -R ${{ secrets.INSTANCE_SERVER }}
           aws ec2-instance-connect ssh --instance-id ${{ secrets.AWS_EC2INSTANCEID }}
           docker stop webapp || true
           docker rm webapp || true
