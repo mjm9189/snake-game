@@ -1,4 +1,4 @@
-iconst gameBoard = document.getElementById("game-board");
+const gameBoard = document.getElementById("game-board");
 const startButton = document.getElementById("start-button");
 const newGameButton = document.getElementById("new-game-button")
 const gameOverImg = document.getElementById("game-over")
