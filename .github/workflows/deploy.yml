@@ -3,7 +3,7 @@ name: Snake CI/CD Pipeline
 on:
   push:
     branches:
-    - main
+    - prod
 
 env:
   REGISTRY: ghcr.io
@@ -89,6 +89,7 @@ jobs:
           aws ec2-instance-connect ssh --instance-id ${{ secrets.AWS_EC2INSTANCEID }}
           docker stop webapp || true
           docker rm webapp || true
+          docker rmi -f $(docker images -aq)
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
           docker run -d --name webapp -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
       -
