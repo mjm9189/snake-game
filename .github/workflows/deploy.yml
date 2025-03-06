@@ -86,6 +86,7 @@ jobs:
       -
         name: Deploy to EC2
         run: |
+          ssh-keygen -R ${{ secrets.INSTANCE_SERVER }}
           aws ec2-instance-connect ssh --instance-id ${{ secrets.AWS_EC2INSTANCEID }}
           docker stop webapp || true
           docker rm webapp || true
