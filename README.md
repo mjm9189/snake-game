@@ -21,6 +21,8 @@ order to connect to the REST API.
 - Spring Boot 3.4.3
 - Maven 3.9.9
 #### How to Run
+##### Online
+The most up-to-date version of the game is live at https://snake.mjmiller.dev, where it can be played at your convenience.
 ##### Direct download
 First, install all above-listed requirements. After cloning this repo, navigate to `/snake-game`
 in your terminal and run the command `mvn spring-boot:run`. Alternatively, opening the repo in a
