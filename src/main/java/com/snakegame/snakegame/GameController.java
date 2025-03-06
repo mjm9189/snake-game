@@ -7,6 +7,7 @@ import java.util.Map;
 
 @RestController
 @SessionScope
+@CrossOrigin
 public class GameController {
     private final Game game;
     private volatile Map<String, Object> latestGameState;

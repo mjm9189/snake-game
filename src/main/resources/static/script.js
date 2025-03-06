@@ -1,4 +1,4 @@
-const gameBoard = document.getElementById("game-board");
+iconst gameBoard = document.getElementById("game-board");
 const startButton = document.getElementById("start-button");
 const newGameButton = document.getElementById("new-game-button")
 const gameOverImg = document.getElementById("game-over")
@@ -10,7 +10,7 @@ window.refreshIntervalId = null;
 
 async function fetchGameState() {
     try {
-        let response = await fetch("http://localhost:8080/state");
+        let response = await fetch("https://snake.mjmiller.dev/state");
         currentGameState = await response.json();
         if (currentGameState.gameOver && !currentGameState.inProgress) {
             clearInterval(window.refreshIntervalId);
@@ -62,7 +62,7 @@ function setPosition(element, position) {
 }
 
 document.addEventListener("keydown", async (event) => {
-    await fetch("http://localhost:8080/move", {
+    await fetch("https://snake.mjmiller.dev/move", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ direction: event.key })
@@ -70,7 +70,7 @@ document.addEventListener("keydown", async (event) => {
 });
 
 function newGame() {
-    fetch("http://localhost:8080/newgame", {
+    fetch("https://snake.mjmiller.dev/newgame", {
         method: "POST"
     })
         .then(response => {
