@@ -87,9 +87,9 @@ jobs:
         name: Deploy to EC2
         run: |
           mkdir -p ~/.ssh/
-          echo ${{ secrets.SSH_PRIVATE_KEY }} > ../private.key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ../private.key
           sudo chmod 600 ../private.key
-          echo ${{ secrets.KNOWN_HOSTS }} > ~/.ssh/known_hosts
+          echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
           ssh -i ${{ github.workspace }}/../private.key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 
           docker stop webapp || true
           docker rm webapp || true
