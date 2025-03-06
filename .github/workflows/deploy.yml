@@ -86,13 +86,11 @@ jobs:
       -
         name: Deploy to EC2
         run: |
-          mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
-          ssh-keygen -R ${{ secrets.INSTANCE_SERVER }}
           aws ec2-instance-connect ssh --instance-id ${{ secrets.AWS_EC2INSTANCEID }}
           docker stop webapp || true
           docker rm webapp || true
-          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          docker run -d --name webapp -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
+          docker run -d --name webapp -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
       -
         name: Revoke Runner IP Address
         if: ${{ always() }}
