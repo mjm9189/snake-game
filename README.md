@@ -28,9 +28,6 @@ code editor and clicking the run button on the `SnakegameApplication` class loca
 `/snake-game/src/main/java/com/snakegame/snakegame` should also work. Then, in your browser,
 navigate to localhost:8080 to play.
 
-##### Docker
-If you've installed Docker, finding and running 
-
 ### Game Rules
 For those unfamiliar with the game, the goal of the player is to control the snake
 while trying to eat as many pieces of food as possible. Eating food increases
